@@ -1,0 +1,193 @@
+# docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
+
+run:
+  prefix: coldest_year
+  name: [year_2013] # or multiple: [year_cold, year_hot, ...]
+  scenarios:
+    enable: true
+    file: config/scenarios.template.yaml
+  use_shadow_directory: true
+
+scenario:
+  clusters: [10]
+
+countries: ["CH", "DE", "AT", "IT", "FR"]
+
+# change it to correct weather year
+snapshots:
+  start: "2023-10-01"
+  end: "2024-03-31"
+  inclusive: both
+
+electricity:
+  renewable_carriers: [solar, solar-hsat, onwind, alpine-solar, hydro]
+  extendable_carriers: # don't extend hydro and PHS
+    Generator: [solar, solar-hsat, onwind, alpine-solar]
+    StorageUnit: [] 
+
+#review this again
+#insert my desired cutouts
+atlite:
+  nprocesses: 8
+  show_progress: true
+  cutouts: # load cutouts from HDD into cutouts folder here
+    cold_year:
+      x : [5.95, 10.47]
+      y : [45.82, 47.81]
+      time : ["1941-10-01", "1942-03-31"]
+      module: era5
+    
+    high_albedo_year:
+      x : [5.95, 10.47]
+      y : [45.82, 47.81]
+      time : ["1962-10-01", "1963-03-31"]
+      module: era5
+
+    ch_kombiniert_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
+      x : [5.95, 10.47]
+      y : [45.82, 47.81]
+      time : ["2023-10-01", "2024-03-31"]
+      module: era5
+
+    low_albedo_year:
+      x : [5.95, 10.47]
+      y : [45.82, 47.81]
+      time : ["2006-10-01", "2007-03-31"]
+      module: era5
+
+    medium_year:
+      x : [5.95, 10.47]
+      y : [45.82, 47.81]
+      time : ["1981-10-01", "1982-03-31"]
+      module: era5
+
+# I just left out offwind, is that okay?
+# do I have to download wind data in the cutouts for onwind?
+# same for hydro stuff?
+
+renewable:
+  onwind:
+    cutout: default
+  solar:
+    cutout: default
+  solar-hsat:
+    cutout: default
+  hydro:
+    cutout: default
+
+
+  alpine-solar:
+    cutout: default
+    resource:
+      method: pv
+      panel: CSi
+      orientation:
+        slope: 65.0 # only in the presence of snow, without snow its 52.0 Degrees
+        azimuth: 180.0
+      tracking:
+    resource_classes: 1
+    capacity_per_sqkm: 5.1 # change, find reference for this
+    corine: false
+    luisa: false
+    natura: false
+    excluder_resolution: 100
+    clip_p_max_pu: 0.01
+
+# added this, because otherwise it didn't find data for 2024
+# I guess it can only calculate / look at 1 year?
+# load:
+#   fixed_year: 2023
+
+
+# here starts the sector-coupled part
+pypsa_eur:
+  Bus: [AC]
+  Link: [DC] # energz conversion, DC powerline is transporting electricity
+  Line: [AC] # without conversion
+  Generator: [solar, solar-hsat, onwind, ror, alpine-solar] # carrying through to SC model 
+  StorageUnit: [hydro, PHS] 
+  Store: []
+
+solar_thermal:
+  cutout: default
+
+sector:
+  transport: true
+  heating: true
+  biomass: true
+  industry: true
+  shipping: false
+  aviation: true
+  agriculture: true
+  fossil_fuels: true
+
+  district_heating:
+    potential: 0.6
+
+  bev_dsm: true
+  v2g: true
+
+  tes: true
+  boilers: true
+  resistive_heaters: true
+  biomass_boiler: true
+
+  chp:
+    enable: true
+
+  solar_thermal: true
+
+  methanation: true
+  
+  dac: true
+
+  heat_vent:
+    urban central: true
+    urban decentral: true
+    rural: true
+
+  hydrogen_fuel_cell: true
+  hydrogen_turbine: true
+  SMR: true
+  SMR_cc: true
+  regional_oil_demand: true
+
+  regional_co2_sequestration_potential:
+    enable: true
+
+  co2_spatial: true
+  co2_network: true
+
+  hydrogen_underground_storage: true
+
+  methanol:
+    methanol_to_power:
+      ocgt: true
+    biomass_to_methanol: true
+
+  ammonia: true
+
+  electricity_transmission_grid: true
+  electricity_distribution_grid: true # this sets solar cost to cost of utility (freifläche) and not 50-50 utility-rooftop 
+
+  electricity_grid_connection: true
+
+  H2_network: true
+  gas_network: true
+
+  gas_distribution_grid: true
+
+  biomass_spatial: true
+
+  biogas_upgrading: true
+  
+  conventional_generation:
+    OCGT: gas
+    CCGT: gas
+
+  biomass_to_liquid: true
+  electrobiofuels: true
+
+clustering:
+  temporal:
+    resolution_sector: 3H
