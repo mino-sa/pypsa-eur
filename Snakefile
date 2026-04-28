@@ -7,7 +7,7 @@ import yaml
 from os.path import normpath, exists, join
 from shutil import copyfile, move, rmtree
 from dotenv import load_dotenv
-from snakemake.utils import min_version
+from snakemake.utils import min_version, update_config
 
 load_dotenv()
 
@@ -23,8 +23,14 @@ from scripts._helpers import (
 from scripts.lib.validation.config import validate_config
 
 
-configfile: "config/config.default.yaml"
+configfile: "config/config.nothing.yaml"
 configfile: "config/plotting.default.yaml"
+
+# overwriting config.nothing with config.overwrite (only available values, rest stays the same)
+with open("config/config.overwrite.yaml") as f:
+    config_overwrite = yaml.safe_load(f)
+
+update_config(config, config_overwrite)
 
 
 if Path("config/config.yaml").exists():
