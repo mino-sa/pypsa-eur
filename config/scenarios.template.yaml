@@ -11,18 +11,111 @@
 #   electricity:
 #       renewable_carriers: [wind, solar] # override the list of renewable carriers
 
-normal:
-  electricity:
-    renewable_carriers:
-    - solar
-    - onwind
-    - offwind-ac
-    - offwind-dc
-    - hydro
+year_2013:
+  snapshots:
+    start: "2013-01-01"
+    end: "2013-12-31"
+  renewable:
+    onwind:
+      cutout: europe-2013-sarah3-era5
+    solar:
+      cutout: europe-2013-sarah3-era5
+    solar-hsat:
+      cutout: europe-2013-sarah3-era5
+    hydro:
+      cutout: europe-2013-sarah3-era5
+    alpine-solar:
+      cutout: europe-2013-sarah3-era5
+  solar_thermal:
+    cutout: europe-2013-sarah3-era5
 
-no-offwind:
-  electricity:
-    renewable_carriers:
-    - solar
-    - onwind
-    - hydro
+year_cold:
+  snapshots:
+    start: "1941-10-01"
+    end: "1942-03-31"
+  renewable:
+    onwind:
+      cutout: cold_year
+    solar:
+      cutout: cold_year
+    solar-hsat:
+      cutout: cold_year
+    hydro:
+      cutout: cold_year
+    alpine-solar:
+      cutout: cold_year
+  solar_thermal:
+    cutout: cold_year
+
+high_albedo_year:
+  snapshots:
+    start: "1962-10-01"
+    end: "1963-03-31"
+  renewable:
+    onwind:
+      cutout: high_albedo_year
+    solar:
+      cutout: high_albedo_year
+    solar-hsat:
+      cutout: high_albedo_year
+    hydro:
+      cutout: high_albedo_year
+    alpine-solar:
+      cutout: high_albedo_year
+  solar_thermal:
+    cutout: high_albedo_year
+
+year_hot:
+  snapshots:
+    start: "2023-10-01"
+    end: "2024-03-31"
+  renewable:
+    onwind:
+      cutout: ch_kombiniert_2023_2024
+    solar:
+      cutout: ch_kombiniert_2023_2024
+    solar-hsat:
+      cutout: ch_kombiniert_2023_2024
+    hydro:
+      cutout: ch_kombiniert_2023_2024
+    alpine-solar:
+      cutout: ch_kombiniert_2023_2024
+  solar_thermal:
+    cutout: ch_kombiniert_2023_2024
+
+low_albedo_year:
+  snapshots:
+    start: "2006-10-01"
+    end: "2007-03-31"
+  renewable:
+    onwind:
+      cutout: low_albedo_year
+    solar:
+      cutout: low_albedo_year
+    solar-hsat:
+      cutout: low_albedo_year
+    hydro:
+      cutout: low_albedo_year
+    alpine-solar:
+      cutout: low_albedo_year
+  solar_thermal:
+    cutout: low_albedo_year
+
+medium_year:
+  snapshots:
+    start: "1981-10-01"
+    end: "1982-03-31"
+  renewable:
+    onwind:
+      cutout: medium_year
+    solar:
+      cutout: medium_year
+    solar-hsat:
+      cutout: medium_year
+    hydro:
+      cutout: medium_year
+    alpine-solar:
+      cutout: medium_year
+  solar_thermal:
+    cutout: medium_year
+
