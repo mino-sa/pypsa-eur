@@ -1,7 +1,7 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 
 run:
-  prefix: coldest_year
+  prefix: "2013"
   name: [year_2013] # or multiple: [year_cold, year_hot, ...]
   scenarios:
     enable: true
@@ -15,9 +15,9 @@ countries: ["CH", "DE", "AT", "IT", "FR"]
 
 # change it to correct weather year
 snapshots:
-  start: "2023-10-01"
-  end: "2024-03-31"
-  inclusive: both
+  start: "2013-01-01"
+  end: "2014-01-01"
+  inclusive: left
 
 electricity:
   renewable_carriers: [solar, solar-hsat, onwind, alpine-solar, hydro]
@@ -115,7 +115,7 @@ sector:
   transport: true
   heating: true
   biomass: true
-  industry: true
+  industry: false
   shipping: false
   aviation: false
   agriculture: true
@@ -156,7 +156,7 @@ sector:
     enable: false
 
   co2_spatial: false
-  co2_network: false
+  co2_network: true
 
   hydrogen_underground_storage: true
 
