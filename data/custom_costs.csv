@@ -14,4 +14,4 @@ all,central water pit charger,marginal_cost,0.025,EUR/MWh,Default value to preve
 all,alpine-solar,investment,3200,EUR/kW
 all,alpine-solar,FOM,0.22,%/year
 all,alpine-solar,lifetime,25,years
-all,alpine,VOM,0.01,EUR/MWh
+all,alpine,marginal_cost,0.01,EUR/MWh
