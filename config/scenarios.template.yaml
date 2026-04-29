@@ -14,7 +14,8 @@
 year_2013:
   snapshots:
     start: "2013-01-01"
-    end: "2013-12-31"
+    end: "2014-01-01"
+    inclusive: left
   renewable:
     onwind:
       cutout: europe-2013-sarah3-era5
