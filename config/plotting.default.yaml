@@ -425,6 +425,7 @@ plotting:
     services urban decentral solar thermal: '#dfb953'
     urban central solar thermal: '#d7b24c'
     solar rooftop: '#ffea80'
+    alpine-solar: "#e67e22"
     # gas
     OCGT: '#e0986c'
     OCGT marginal: '#e0986c'
