@@ -72,17 +72,17 @@ year_hot:
     end: "2024-03-31"
   renewable:
     onwind:
-      cutout: ch_kombiniert_2023_2024
+      cutout: europe_2023_2024
     solar:
-      cutout: ch_kombiniert_2023_2024
+      cutout: europe_2023_2024
     solar-hsat:
-      cutout: ch_kombiniert_2023_2024
+      cutout: europe_2023_2024
     hydro:
-      cutout: ch_kombiniert_2023_2024
+      cutout: europe_2023_2024
     alpine-solar:
-      cutout: ch_kombiniert_2023_2024
+      cutout: europe_2023_2024
   solar_thermal:
-    cutout: ch_kombiniert_2023_2024
+    cutout: europe_2023_2024
 
 low_albedo_year:
   snapshots:
