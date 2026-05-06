@@ -1,0 +1,68 @@
+
+### from Jonathan ###
+
+# docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
+
+run:
+  use_shadow_directory: true
+
+scenario:
+  clusters: [2] # [50]
+
+countries: [DE, CH] # [AL, AT, BA, BE, BG, CH, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT, LT, LU, LV, ME, MK, NL, 'NO', PL, PT, RO, RS, SE, SI, SK] # XK errors still
+
+co2_budget:
+  2050: 0
+
+electricity:
+  renewable_carriers: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, hydro]
+  extendable_carriers:
+    Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  estimate_renewable_capacities:
+    enable: false
+  transmission_limit: c1.25
+
+transmission_projects:
+  enable: true
+  include:
+    tyndp2020: true
+
+pypsa_eur:
+  Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc, ror]
+  StorageUnit: [PHS, hydro]
+  Link: [DC]
+  Line: [AC]
+
+clustering:
+  temporal:
+    resolution_sector: 3H  # limit of diurnal storage (Mai, 2022) is 24H; 3H justified in Gotske, 2024
+
+sector:
+  transport: true
+
+  heating: true
+  district_heating:
+    potential: 0.6
+  time_dep_hp_cop: true
+
+  biomass: true
+
+  industry: true
+  ammonia: false  # NB. industrial/fertiliser demand for ammonia counted using H2 and elec. demand
+  SMR: false  # green H2 only
+  SMR_cc: false
+  methanation: false
+
+  fossil_fuels: false # fully renewable, this flag = true implies there's a way to spawn in CH4/oil/coal into the network
+  gas_network: false  # true # adds: link 'gas pipeline', link 'gas pipeline new', minimum capacity on store 'gas'
+  
+  dac: true # might need to catch excess carbon emissions from somewhere
+  co2_network: false # true
+
+  H2_network: false # true
+  H2_retrofit: false # true
+  hydrogen_turbine: true
+  hydrogen_fuel_cell: true
+
+  electricity_transmission_grid: true
+  electricity_distribution_grid: true
