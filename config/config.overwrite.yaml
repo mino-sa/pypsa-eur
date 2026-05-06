@@ -1,17 +1,17 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 
 run:
-  prefix: "2013"
-  name: [year_2013] # or multiple: [year_cold, year_hot, ...]
+  prefix: "adm2324"
+  name: [year_hot] # or multiple: [year_cold, year_hot, ...]
   scenarios:
     enable: true
     file: config/scenarios.template.yaml
   use_shadow_directory: true
 
 scenario:
-  clusters: [10]
+  clusters: [adm]
 
-countries: ["CH", "DE", "AT", "IT", "FR"]
+countries: ['CH', "DE"]
 
 # change it to correct weather year
 snapshots:
@@ -43,9 +43,9 @@ atlite:
       time : ["1962-10-01", "1963-03-31"]
       module: era5
 
-    ch_kombiniert_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
-      x : [5.95, 10.47]
-      y : [45.82, 47.81]
+    europe_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
+      x : [-12, 42]
+      y : [33, 72]
       time : ["2023-10-01", "2024-03-31"]
       module: era5
 
@@ -87,16 +87,40 @@ renewable:
       tracking:
     resource_classes: 1
     capacity_per_sqkm: 5.1 # change, find reference for this
-    corine: false
+    correction_factor: 1.0
+    corine:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 26
+    - 31
+    - 32
     luisa: false
-    natura: false
+    natura: true
     excluder_resolution: 100
     clip_p_max_pu: 0.01
 
 # added this, because otherwise it didn't find data for 2024
 # I guess it can only calculate / look at 1 year?
-# load:
-#   fixed_year: 2023
+load:
+  fixed_year: 2023
 
 
 # here starts the sector-coupled part
@@ -104,90 +128,101 @@ pypsa_eur:
   Bus: [AC]
   Link: [DC] # energz conversion, DC powerline is transporting electricity
   Line: [AC] # without conversion
-  Generator: [solar, solar-hsat, onwind, ror, alpine-solar] # carrying through to SC model 
+  Generator: [solar, solar-hsat, onwind, ror, alpine-solar, ror] # carrying through to SC model 
   StorageUnit: [hydro, PHS] 
   Store: []
 
 solar_thermal:
   cutout: default
 
+clustering:
+  mode: administrative
+  administrative:
+    level: 0 # other countries are only 1 cluster each
+    CH: 3 # only Switzerland is set to Nuts3
+  temporal:
+    resolution_sector: 3H # (limit of diurnal storage (Mai, 2022) is 24H; 3H justified in Gotske, 2024)
+
 sector:
   transport: true
-  heating: true
-  biomass: true
-  industry: false
-  shipping: false
-  aviation: false
-  agriculture: true
-  fossil_fuels: true
 
+  heating: true
   district_heating:
     potential: 0.6
-
-  bev_dsm: true
-  v2g: true
-
-  tes: true
-  boilers: true
-  resistive_heaters: true
-  biomass_boiler: true
-
-  chp:
-    enable: true
-
-  solar_thermal: true
-
-  methanation: true
   
-  dac: true
+  biomass: true
 
-  heat_vent:
-    urban central: true
-    urban decentral: true
-    rural: true
+  industry: false # set to true later
+  ammonia: false
+  SMR: false # green H2 only
+  SMR_cc: false # NB. industrial/fertiliser demand for ammonia counted using H2 and elec. demand
+  methanation: false
 
+  fossil_fuels: false # fully renewable, this flag = true implies there's a way to spawn in CH4/oil/coal into the network
+  gas_network: false # true # adds: link 'gas pipeline', link 'gas pipeline new', minimum capacity on store 'gas'
+  
+  dac: true # might need to catch excess carbon emissions from somewhere
+  co2_network: false
+  co2_spatial: false # what exactly is this?
+
+  H2_network: false
+  H2_retrofit: false # true
   hydrogen_fuel_cell: true
   hydrogen_turbine: true
-  SMR: true
-  SMR_cc: true
+
+  electricity_transmission_grid: true
+  electricity_distribution_grid: true # this sets solar cost to cost of utility (freifläche) and not 50-50 utility-rooftop 
+
+
+
+### additional? ###
+### all false from here ###
+
+  shipping: false
+  aviation: false
+  agriculture: false
+
+  bev_dsm: false
+  v2g: false
+
+  tes: false
+  boilers: false
+  resistive_heaters: false
+  biomass_boiler: false
+
+  chp:
+    enable: false
+
+  solar_thermal: false
+
+  heat_vent:
+    urban central: false
+    urban decentral: false
+    rural: false
+
   regional_oil_demand: false
 
   regional_co2_sequestration_potential:
     enable: false
 
-  co2_spatial: false
-  co2_network: true
-
-  hydrogen_underground_storage: true
+  hydrogen_underground_storage: false
 
   methanol:
     methanol_to_power:
-      ocgt: true
-    biomass_to_methanol: true
-
-  ammonia: false
-
-  electricity_transmission_grid: true
-  electricity_distribution_grid: true # this sets solar cost to cost of utility (freifläche) and not 50-50 utility-rooftop 
+      ocgt: false
+    biomass_to_methanol: false
 
   electricity_grid_connection: true
 
-  H2_network: false
-  gas_network: true
-
   gas_distribution_grid: false
 
-  biomass_spatial: true
+  biomass_spatial: false
 
   biogas_upgrading: false
   
-  conventional_generation:
-    OCGT: gas
-    CCGT: gas
+  conventional_generation: {}
+    #OCGT: gas
+    #CCGT: gas
 
   biomass_to_liquid: false
   electrobiofuels: false
-
-clustering:
-  temporal:
-    resolution_sector: 3H
