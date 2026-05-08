@@ -11,7 +11,7 @@ run:
 scenario:
   clusters: [adm]
 
-countries: ['CH', "DE"]
+countries: ['CH', "DE", "AT", "FR", "IT"] # [AL, AT, BA, BE, BG, CH, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT, LT, LU, LV, ME, MK, NL, 'NO', PL, PT, RO, RS, SE, SI, SK] # XK errors still
 
 # change it to correct weather year
 snapshots:
@@ -43,9 +43,9 @@ atlite:
       time : ["1962-10-01", "1963-03-31"]
       module: era5
 
-    europe_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
-      x : [-12, 42]
-      y : [33, 72]
+    neighbours_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
+      x : [-6, 19]
+      y : [35, 56]
       time : ["2023-10-01", "2024-03-31"]
       module: era5
 
