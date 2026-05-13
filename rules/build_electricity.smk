@@ -363,7 +363,7 @@ rule build_renewable_profiles:
         distance_regions=resources("regions_onshore_base_s_{clusters}.geojson"),
         resource_regions=lambda w: (
             resources("regions_onshore_base_s_{clusters}.geojson")
-            if w.technology in ("onwind", "solar", "solar-hsat")
+            if w.technology in ("onwind", "solar", "solar-hsat", "alpine-solar")
             else resources("regions_offshore_base_s_{clusters}.geojson")
         ),
         cutout=lambda w: input_cutout(

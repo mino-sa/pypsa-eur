@@ -149,7 +149,37 @@ if __name__ == "__main__":
 
     cutout = load_cutout(snakemake.input.cutout, time=sns)
 
-    availability = xr.open_dataarray(snakemake.input.availability_matrix)
+# --- Alpine PV FIX START ---
+    breakpoint()
+    # calculation of sqkm of every pixel
+    # put this up here because I need area later
+    area = cutout.grid.to_crs(3035).area / 1e6
+    # making a 2D raster of the area
+    area = xr.DataArray(
+        area.values.reshape(cutout.shape), [cutout.coords["y"], cutout.coords["x"]]
+    )
+
+
+    # so layout can be 1, see below
+    if snakemake.wildcards.technology == "alpine-solar":
+        capacity_per_sqkm = 1.0
+        area = xr.ones_like(area)
+
+    #original: availability = xr.open_dataarray(snakemake.input.availability_matrix)
+
+    # get availability matrix from raster I defined in capacityfactors.ipynb
+    if snakemake.wildcards.technology == "alpine-solar":
+        
+        raw_availability = xr.open_dataarray("/Users/minosandri/Bachelorarbeit/pypsa-eur_dev/data/custom_layouts/alpine_pv_layout.nc")
+        
+        # safety measure, had some problems with cutout coordinates before
+        availability = raw_availability.reindex_like(area, method="nearest", tolerance=0.01)
+        availability = availability.fillna(0.0)
+        
+    else:
+        availability = xr.open_dataarray(snakemake.input.availability_matrix)
+    # --- FIX END FOR ALPINE PV ---
+
 
     regions = gpd.read_file(snakemake.input.distance_regions)
     # do not pull up, set_index does not work if geo dataframe is empty
@@ -167,10 +197,13 @@ if __name__ == "__main__":
     regions = regions.geometry.to_crs(3035)
     buses = regions.index
 
-    area = cutout.grid.to_crs(3035).area / 1e6
-    area = xr.DataArray(
-        area.values.reshape(cutout.shape), [cutout.coords["y"], cutout.coords["x"]]
-    )
+    # this is now earlier in code 
+
+    # area = cutout.grid.to_crs(3035).area / 1e6
+    # area = xr.DataArray(
+    #     area.values.reshape(cutout.shape), [cutout.coords["y"], cutout.coords["x"]]
+    # )
+
 
     func = getattr(cutout, resource.pop("method"))
     if client is not None:
@@ -244,7 +277,16 @@ if __name__ == "__main__":
         f"Completed resource class calculation for technology {technology} ({duration:2.2f}s)"
     )
 
-    layout = capacity_factor * area * capacity_per_sqkm
+    # we set the layut to 1 so it doesnt get multiplied with capacity factor from cutout calculated by atlite
+    
+    #original:  layout = capacity_factor * area * capacity_per_sqkm
+    
+    if snakemake.wildcards.technology == "alpine-solar":
+        layout = area * capacity_per_sqkm
+    else:
+        layout = capacity_factor * area * capacity_per_sqkm
+
+
 
     profiles = []
     for year, model in models.items():
@@ -258,6 +300,7 @@ if __name__ == "__main__":
         matrix = (availability * class_masks).stack(
             bus_bin=["bus", "bin"], spatial=["y", "x"]
         )
+        breakpoint()
 
         profile = func(
             matrix=matrix,
@@ -282,7 +325,13 @@ if __name__ == "__main__":
     profiles = xr.merge(profiles)
 
     logger.info(f"Calculating maximal capacity per bus for technology {technology}")
-    p_nom_max = capacity_per_sqkm * availability * class_masks @ area
+    #original: p_nom_max = capacity_per_sqkm * availability * class_masks @ area
+    if snakemake.wildcards.technology == "alpine-solar":
+        p_nom_max = (availability * class_masks).sum(dim=["x", "y"]) # sum (MW * -) over pixels to get MW per bus, no capacity_per_sqkm = 1 and no area because I set layout to 1 and this would multiply with km^2 again, see above
+    else:
+        p_nom_max = capacity_per_sqkm * availability * class_masks @ area # capacity_per_sqkm [MW/km^2] * availability [0-1] * class_masks [True/False] @ area [km^2]
+
+
 
     logger.info(f"Calculate average distances for technology {technology}.")
     layoutmatrix = (layout * availability * class_masks).stack(

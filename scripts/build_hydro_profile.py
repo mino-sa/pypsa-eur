@@ -204,8 +204,8 @@ if __name__ == "__main__":
     inflow = cutout.runoff(
         shapes=country_shapes,
         smooth=True,
-        lower_threshold_quantile=True,
-        normalize_using_yearly=eia_stats,
+        lower_threshold_quantile=True#,
+        #normalize_using_yearly=eia_stats,
     )
 
     if full_years_available:
