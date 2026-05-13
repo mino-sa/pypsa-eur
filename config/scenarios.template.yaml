@@ -30,10 +30,14 @@ year_2013:
   solar_thermal:
     cutout: europe-2013-sarah3-era5
 
+  sector:
+    heat_demand_cutout: europe-2013-sarah3-era5
+
 year_cold:
   snapshots:
     start: "1941-10-01"
     end: "1942-03-31"
+    inclusive: both
   renewable:
     onwind:
       cutout: cold_year
@@ -48,10 +52,14 @@ year_cold:
   solar_thermal:
     cutout: cold_year
 
+  sector:
+    heat_demand_cutout: cold_year
+
 high_albedo_year:
   snapshots:
     start: "1962-10-01"
     end: "1963-03-31"
+    inclusive: both
   renewable:
     onwind:
       cutout: high_albedo_year
@@ -66,10 +74,14 @@ high_albedo_year:
   solar_thermal:
     cutout: high_albedo_year
 
+  sector:
+    heat_demand_cutout: high_albedo_year
+
 year_hot:
   snapshots:
     start: "2023-10-01"
     end: "2024-03-31"
+    inclusive: both
   renewable:
     onwind:
       cutout: neighbours_2023_2024
@@ -84,28 +96,38 @@ year_hot:
   solar_thermal:
     cutout: neighbours_2023_2024
 
+  sector:
+    heat_demand_cutout: neighbours_2023_2024
+
 low_albedo_year:
   snapshots:
     start: "2006-10-01"
     end: "2007-03-31"
+    inclusive: both
+  atlite:
+    default_cutout: "neighbours_2006_2007"
   renewable:
     onwind:
-      cutout: low_albedo_year
+      cutout: neighbours_2006_2007
     solar:
-      cutout: low_albedo_year
+      cutout: neighbours_2006_2007
     solar-hsat:
-      cutout: low_albedo_year
+      cutout: neighbours_2006_2007
     hydro:
-      cutout: low_albedo_year
+      cutout: neighbours_2006_2007
     alpine-solar:
-      cutout: low_albedo_year
+      cutout: neighbours_2006_2007
   solar_thermal:
-    cutout: low_albedo_year
+    cutout: neighbours_2006_2007
+
+  sector:
+    heat_demand_cutout: neighbours_2006_2007
 
 medium_year:
   snapshots:
     start: "1981-10-01"
     end: "1982-03-31"
+    inclusive: both
   renewable:
     onwind:
       cutout: medium_year
@@ -120,3 +142,5 @@ medium_year:
   solar_thermal:
     cutout: medium_year
 
+  sector:
+    heat_demand_cutout: medium_year
