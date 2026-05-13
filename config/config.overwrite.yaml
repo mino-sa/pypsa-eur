@@ -1,7 +1,7 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 
 run:
-  prefix: "0607full"
+  prefix: "0607half_netzero"
   name: [low_albedo_year] # or multiple: [year_cold, year_hot, ...]
   scenarios:
     enable: true
@@ -20,9 +20,9 @@ snapshots:
   inclusive: left
 
 electricity:
-  renewable_carriers: [solar, solar-hsat, onwind, alpine-solar, hydro]
+  renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
   extendable_carriers: # don't extend hydro and PHS
-    Generator: [solar, solar-hsat, onwind, alpine-solar]
+    Generator: [alpine-solar,solar, solar-hsat, onwind]
     StorageUnit: [] 
 
 #review this again
@@ -49,10 +49,10 @@ atlite:
       time : ["2023-10-01", "2024-03-31"]
       module: era5
 
-    neighbours_2006_2007_full:
+    neighbours_2006_2007:
       x : [-6, 19]
       y : [35, 56]
-      time : ["2006-07-01", "2007-06-30"]
+      time : ["2006-10-01", "2007-03-31"]
       module: era5
 
     medium_year:
@@ -128,7 +128,7 @@ pypsa_eur:
   Bus: [AC]
   Link: [DC] # energz conversion, DC powerline is transporting electricity
   Line: [AC] # without conversion
-  Generator: [solar, solar-hsat, onwind, ror, alpine-solar, ror] # carrying through to SC model 
+  Generator: [alpine-solar, solar, solar-hsat, onwind, ror] # carrying through to SC model 
   StorageUnit: [hydro, PHS] 
   Store: []
 
@@ -162,7 +162,7 @@ sector:
   SMR_cc: false # NB. industrial/fertiliser demand for ammonia counted using H2 and elec. demand
   methanation: false
 
-  fossil_fuels: true # fully renewable, this flag = true implies there's a way to spawn in CH4/oil/coal into the network
+  fossil_fuels: false # fully renewable, this flag = true implies there's a way to spawn in CH4/oil/coal into the network
   gas_network: false # true # adds: link 'gas pipeline', link 'gas pipeline new', minimum capacity on store 'gas'
   
   dac: true # might need to catch excess carbon emissions from somewhere
