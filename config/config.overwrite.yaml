@@ -1,7 +1,7 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 
 run:
-  prefix: "0607half_netzero"
+  prefix: "0607half_netzero_experiments"
   name: [low_albedo_year] # or multiple: [year_cold, year_hot, ...]
   scenarios:
     enable: true
@@ -22,7 +22,7 @@ snapshots:
 electricity:
   renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
   extendable_carriers: # don't extend hydro and PHS
-    Generator: [alpine-solar,solar, solar-hsat, onwind]
+    Generator: [alpine-solar, solar, solar-hsat, onwind]
     StorageUnit: [] 
 
 #review this again
@@ -88,32 +88,9 @@ renewable:
     resource_classes: 1
     capacity_per_sqkm: 5.1 # change, find reference for this
     correction_factor: 1.0
-    corine:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-    - 7
-    - 8
-    - 9
-    - 10
-    - 11
-    - 12
-    - 13
-    - 14
-    - 15
-    - 16
-    - 17
-    - 18
-    - 19
-    - 20
-    - 26
-    - 31
-    - 32
+    corine: false
     luisa: false
-    natura: true
+    natura: false
     excluder_resolution: 100
     clip_p_max_pu: 0.01
 
@@ -178,10 +155,19 @@ sector:
   electricity_distribution_grid: true # this sets solar cost to cost of utility (freifläche) and not 50-50 utility-rooftop 
   heat_demand_cutout: default
 
+  imports: 
+    enable: true
+    limit: 5
+
+costs:
+  year: 2020
+
 solving:
   solver_options:
     "gurobi-default":
       threads: 8
+  constraints:
+    CCL: false # --> true!
 
 ### additional? ###
 ### all false from here ###
