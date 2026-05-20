@@ -102,8 +102,8 @@ year_hot:
 low_albedo_year:
   snapshots:
     start: "2006-10-01"
-    end: "2007-03-31"
-    inclusive: both
+    end: "2007-04-01"
+    inclusive: left
   atlite:
     default_cutout: "neighbours_2006_2007"
   renewable:
