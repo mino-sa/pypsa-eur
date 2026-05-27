@@ -1,8 +1,8 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 
 run:
-  prefix: "0607half_netzero_experiments"
-  name: [low_albedo_year] # or multiple: [year_cold, year_hot, ...]
+  prefix: "8586_final" #albedo 2 is with runoff from standard era5
+  name: [cold_high_albedo_alpine] # cold_high_albedo, low_albedo_year, low_albedo_year_alpine
   scenarios:
     enable: true
     file: config/scenarios.template.yaml
@@ -13,17 +13,20 @@ scenario:
 
 countries: ['CH', "DE", "AT", "FR", "IT"] # [AL, AT, BA, BE, BG, CH, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT, LT, LU, LV, ME, MK, NL, 'NO', PL, PT, RO, RS, SE, SI, SK] # XK errors still
 
-# change it to correct weather year
-snapshots:
-  start: "2013-01-01"
-  end: "2014-01-01"
-  inclusive: left
+# see sceanrio design fro snapshots
 
 electricity:
-  renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
+  renewable_carriers: [solar, solar-hsat, onwind, hydro]
   extendable_carriers: # don't extend hydro and PHS
-    Generator: [alpine-solar, solar, solar-hsat, onwind]
-    StorageUnit: [] 
+    Generator: [solar, solar-hsat, onwind]
+    StorageUnit: []
+  transmission_limit: l1.0 # find study, we assume (gotske, 2024)
+    # if c1.0 --> less imports?
+
+# transmission_projects: # we assume
+#   enable: true
+#   include:
+#     tyndp2020: true
 
 #review this again
 #insert my desired cutouts
@@ -31,34 +34,22 @@ atlite:
   nprocesses: 1
   show_progress: true
   cutouts: # load cutouts from HDD into cutouts folder here
-    cold_year:
-      x : [5.95, 10.47]
-      y : [45.82, 47.81]
-      time : ["1941-10-01", "1942-03-31"]
-      module: era5
-    
-    high_albedo_year:
-      x : [5.95, 10.47]
-      y : [45.82, 47.81]
-      time : ["1962-10-01", "1963-03-31"]
+    coldest_high_albedo_1985_1986:
+      x: [-6, 19]
+      y: [35, 56]
+      time: ["1985-10-01", "1986-03-31"]
       module: era5
 
-    neighbours_2023_2024: # name of warm year cutout under data/cutout/archive/v1.0
-      x : [-6, 19]
-      y : [35, 56]
-      time : ["2023-10-01", "2024-03-31"]
-      module: era5
-
-    neighbours_2006_2007:
+    neighbours_2006_2007_albedo:
       x : [-6, 19]
       y : [35, 56]
       time : ["2006-10-01", "2007-03-31"]
       module: era5
 
     medium_year:
-      x : [5.95, 10.47]
-      y : [45.82, 47.81]
-      time : ["1981-10-01", "1982-03-31"]
+      x : [-6, 19]
+      y : [35, 56]
+      time : ["2017-10-01", "2018-03-31"]
       module: era5
 
 # I just left out offwind, is that okay?
@@ -94,18 +85,13 @@ renewable:
     excluder_resolution: 100
     clip_p_max_pu: 0.01
 
-# added this, because otherwise it didn't find data for 2024
-# I guess it can only calculate / look at 1 year?
-# load:
-#   fixed_year: 2023
-
 
 # here starts the sector-coupled part
 pypsa_eur:
   Bus: [AC]
   Link: [DC] # energz conversion, DC powerline is transporting electricity
   Line: [AC] # without conversion
-  Generator: [alpine-solar, solar, solar-hsat, onwind, ror] # carrying through to SC model 
+  Generator: [solar, solar-hsat, onwind, ror] # carrying through to SC model
   StorageUnit: [hydro, PHS] 
   Store: []
 
@@ -125,7 +111,7 @@ sector:
 
   heating: true
   tes: true #false
-  boilers: true #false
+  boilers: false #otherwise undefined buses -> heating is electric
   resistive_heaters: true #false
   biomass_boiler: true #false
   district_heating:
@@ -146,7 +132,7 @@ sector:
   co2_network: false
   co2_spatial: false # what exactly is this?
 
-  H2_network: true
+  H2_network: false
   H2_retrofit: false # true
   hydrogen_fuel_cell: true
   hydrogen_turbine: true
