@@ -1,146 +1,120 @@
-# -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Contributors to PyPSA-Eur <https://github.com/pypsa/pypsa-eur>
-#
-# SPDX-License-Identifier: MIT
 
-# This file is used to define the scenarios that are run by snakemake. Each entry on the first level is a scenario. Each scenario can contain configuration overrides with respect to the config/config.yaml settings.
-#
-# Example
-#
-# custom-scenario: # name of the scenario
-#   electricity:
-#       renewable_carriers: [wind, solar] # override the list of renewable carriers
+### Warm year with low albedo (2006-2007)
 
-year_2013:
-  snapshots:
-    start: "2013-01-01"
-    end: "2014-01-01"
-    inclusive: left
-  renewable:
-    onwind:
-      cutout: europe-2013-sarah3-era5
-    solar:
-      cutout: europe-2013-sarah3-era5
-    solar-hsat:
-      cutout: europe-2013-sarah3-era5
-    hydro:
-      cutout: europe-2013-sarah3-era5
-    alpine-solar:
-      cutout: europe-2013-sarah3-era5
-  solar_thermal:
-    cutout: europe-2013-sarah3-era5
-
-  sector:
-    heat_demand_cutout: europe-2013-sarah3-era5
-
-year_cold:
-  snapshots:
-    start: "1941-10-01"
-    end: "1942-03-31"
-    inclusive: both
-  renewable:
-    onwind:
-      cutout: cold_year
-    solar:
-      cutout: cold_year
-    solar-hsat:
-      cutout: cold_year
-    hydro:
-      cutout: cold_year
-    alpine-solar:
-      cutout: cold_year
-  solar_thermal:
-    cutout: cold_year
-
-  sector:
-    heat_demand_cutout: cold_year
-
-high_albedo_year:
-  snapshots:
-    start: "1962-10-01"
-    end: "1963-03-31"
-    inclusive: both
-  renewable:
-    onwind:
-      cutout: high_albedo_year
-    solar:
-      cutout: high_albedo_year
-    solar-hsat:
-      cutout: high_albedo_year
-    hydro:
-      cutout: high_albedo_year
-    alpine-solar:
-      cutout: high_albedo_year
-  solar_thermal:
-    cutout: high_albedo_year
-
-  sector:
-    heat_demand_cutout: high_albedo_year
-
-year_hot:
-  snapshots:
-    start: "2023-10-01"
-    end: "2024-03-31"
-    inclusive: both
-  renewable:
-    onwind:
-      cutout: neighbours_2023_2024
-    solar:
-      cutout: neighbours_2023_2024
-    solar-hsat:
-      cutout: neighbours_2023_2024
-    hydro:
-      cutout: neighbours_2023_2024
-    alpine-solar:
-      cutout: neighbours_2023_2024
-  solar_thermal:
-    cutout: neighbours_2023_2024
-
-  sector:
-    heat_demand_cutout: neighbours_2023_2024
-
-low_albedo_year:
+warm_low_albedo_year:
   snapshots:
     start: "2006-10-01"
     end: "2007-04-01"
     inclusive: left
   atlite:
-    default_cutout: "neighbours_2006_2007"
+    default_cutout: "neighbours_2006_2007_albedo"
   renewable:
     onwind:
-      cutout: neighbours_2006_2007
+      cutout: neighbours_2006_2007_albedo
     solar:
-      cutout: neighbours_2006_2007
+      cutout: neighbours_2006_2007_albedo
     solar-hsat:
-      cutout: neighbours_2006_2007
+      cutout: neighbours_2006_2007_albedo
     hydro:
-      cutout: neighbours_2006_2007
+      cutout: neighbours_2006_2007_albedo
     alpine-solar:
-      cutout: neighbours_2006_2007
+      cutout: neighbours_2006_2007_albedo
   solar_thermal:
-    cutout: neighbours_2006_2007
-
+    cutout: neighbours_2006_2007_albedo
   sector:
-    heat_demand_cutout: neighbours_2006_2007
+    heat_demand_cutout: neighbours_2006_2007_albedo
 
-medium_year:
+warm_low_albedo_year_alpine:
   snapshots:
-    start: "1981-10-01"
-    end: "1982-03-31"
-    inclusive: both
+    start: "2006-10-01"
+    end: "2007-04-01"
+    inclusive: left
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind]
+      StorageUnit: []
+    transmission_limit: c1.25
+  atlite:
+    default_cutout: "neighbours_2006_2007_albedo"
   renewable:
     onwind:
-      cutout: medium_year
+      cutout: neighbours_2006_2007_albedo
     solar:
-      cutout: medium_year
+      cutout: neighbours_2006_2007_albedo
     solar-hsat:
-      cutout: medium_year
+      cutout: neighbours_2006_2007_albedo
     hydro:
-      cutout: medium_year
+      cutout: neighbours_2006_2007_albedo
     alpine-solar:
-      cutout: medium_year
+      cutout: neighbours_2006_2007_albedo
+  pypsa_eur:
+    Bus: [AC]
+    Link: [DC]
+    Line: [AC]
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror]
+    StorageUnit: [hydro, PHS]
+    Store: []
   solar_thermal:
-    cutout: medium_year
-
+    cutout: neighbours_2006_2007_albedo
   sector:
-    heat_demand_cutout: medium_year
+    heat_demand_cutout: neighbours_2006_2007_albedo
+
+### Cold year with high albedo (1985-1986)
+
+cold_high_albedo:
+  snapshots:
+    start: "1985-10-01"
+    end: "1986-04-01"
+    inclusive: left
+  atlite:
+    default_cutout: "coldest_high_albedo_1985_1986"
+  renewable:
+    onwind:
+      cutout: coldest_high_albedo_1985_1986
+    solar:
+      cutout: coldest_high_albedo_1985_1986
+    solar-hsat:
+      cutout: coldest_high_albedo_1985_1986
+    hydro:
+      cutout: coldest_high_albedo_1985_1986
+  solar_thermal:
+    cutout: coldest_high_albedo_1985_1986
+  sector:
+    heat_demand_cutout: coldest_high_albedo_1985_1986
+
+cold_high_albedo_alpine:
+  snapshots:
+    start: "1985-10-01"
+    end: "1986-04-01"
+    inclusive: left
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat] # ,onwind
+      StorageUnit: []
+    transmission_limit: c1.0
+  atlite:
+    default_cutout: "coldest_high_albedo_1985_1986"
+  renewable:
+    onwind:
+      cutout: coldest_high_albedo_1985_1986
+    solar:
+      cutout: coldest_high_albedo_1985_1986
+    solar-hsat:
+      cutout: coldest_high_albedo_1985_1986
+    hydro:
+      cutout: coldest_high_albedo_1985_1986
+    alpine-solar:
+      cutout: coldest_high_albedo_1985_1986
+  pypsa_eur:
+    Bus: [AC]
+    Link: [DC]
+    Line: [AC]
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror]
+    StorageUnit: [hydro, PHS]
+    Store: []
+  solar_thermal:
+    cutout: coldest_high_albedo_1985_1986
+  sector:
+    heat_demand_cutout: coldest_high_albedo_1985_1986
