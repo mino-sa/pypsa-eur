@@ -1,120 +1,38 @@
 
-### Warm year with low albedo (2006-2007)
+baseline: {}
 
-warm_low_albedo_year:
-  snapshots:
-    start: "2006-10-01"
-    end: "2007-04-01"
-    inclusive: left
-  atlite:
-    default_cutout: "neighbours_2006_2007_albedo"
-  renewable:
-    onwind:
-      cutout: neighbours_2006_2007_albedo
-    solar:
-      cutout: neighbours_2006_2007_albedo
-    solar-hsat:
-      cutout: neighbours_2006_2007_albedo
-    hydro:
-      cutout: neighbours_2006_2007_albedo
-    alpine-solar:
-      cutout: neighbours_2006_2007_albedo
-  solar_thermal:
-    cutout: neighbours_2006_2007_albedo
-  sector:
-    heat_demand_cutout: neighbours_2006_2007_albedo
-
-warm_low_albedo_year_alpine:
-  snapshots:
-    start: "2006-10-01"
-    end: "2007-04-01"
-    inclusive: left
+medium_alpine:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
     extendable_carriers:
       Generator: [alpine-solar, solar, solar-hsat, onwind]
-      StorageUnit: []
-    transmission_limit: c1.25
-  atlite:
-    default_cutout: "neighbours_2006_2007_albedo"
-  renewable:
-    onwind:
-      cutout: neighbours_2006_2007_albedo
-    solar:
-      cutout: neighbours_2006_2007_albedo
-    solar-hsat:
-      cutout: neighbours_2006_2007_albedo
-    hydro:
-      cutout: neighbours_2006_2007_albedo
-    alpine-solar:
-      cutout: neighbours_2006_2007_albedo
   pypsa_eur:
-    Bus: [AC]
-    Link: [DC]
-    Line: [AC]
     Generator: [alpine-solar, solar, solar-hsat, onwind, ror]
-    StorageUnit: [hydro, PHS]
-    Store: []
-  solar_thermal:
-    cutout: neighbours_2006_2007_albedo
-  sector:
-    heat_demand_cutout: neighbours_2006_2007_albedo
 
-### Cold year with high albedo (1985-1986)
+medium_alpine_offwind:
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc] # 
+  pypsa_eur:
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
 
-cold_high_albedo:
-  snapshots:
-    start: "1985-10-01"
-    end: "1986-04-01"
-    inclusive: left
-  atlite:
-    default_cutout: "coldest_high_albedo_1985_1986"
-  renewable:
-    onwind:
-      cutout: coldest_high_albedo_1985_1986
-    solar:
-      cutout: coldest_high_albedo_1985_1986
-    solar-hsat:
-      cutout: coldest_high_albedo_1985_1986
-    hydro:
-      cutout: coldest_high_albedo_1985_1986
-  solar_thermal:
-    cutout: coldest_high_albedo_1985_1986
-  sector:
-    heat_demand_cutout: coldest_high_albedo_1985_1986
-
-cold_high_albedo_alpine:
-  snapshots:
-    start: "1985-10-01"
-    end: "1986-04-01"
-    inclusive: left
+medium_alpine_industry:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
     extendable_carriers:
-      Generator: [alpine-solar, solar, solar-hsat] # ,onwind
-      StorageUnit: []
-    transmission_limit: c1.0
-  atlite:
-    default_cutout: "coldest_high_albedo_1985_1986"
-  renewable:
-    onwind:
-      cutout: coldest_high_albedo_1985_1986
-    solar:
-      cutout: coldest_high_albedo_1985_1986
-    solar-hsat:
-      cutout: coldest_high_albedo_1985_1986
-    hydro:
-      cutout: coldest_high_albedo_1985_1986
-    alpine-solar:
-      cutout: coldest_high_albedo_1985_1986
+      Generator: [alpine-solar, solar, solar-hsat, onwind]
   pypsa_eur:
-    Bus: [AC]
-    Link: [DC]
-    Line: [AC]
     Generator: [alpine-solar, solar, solar-hsat, onwind, ror]
-    StorageUnit: [hydro, PHS]
-    Store: []
-  solar_thermal:
-    cutout: coldest_high_albedo_1985_1986
   sector:
-    heat_demand_cutout: coldest_high_albedo_1985_1986
+    industry: true
+
+medium_alpine_industry_offwind:
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+  sector:
+    industry: true
