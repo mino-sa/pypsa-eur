@@ -1,7 +1,47 @@
 
 baseline: {}
 
-medium_alpine:
+baseline_offwind:
+  electricity:
+    renewable_carriers: [solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+
+baseline_industry:
+  sector:
+    industry: true
+
+baseline_industry_offwind:
+  electricity:
+    renewable_carriers: [solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+  sector:
+    industry: true
+
+baseline_offwind_CHCCL:
+  electricity:
+    renewable_carriers: [solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+
+baseline_all_nosummerimports:
+  electricity:
+    renewable_carriers: [solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+    
+### alpine scenarios ###
+
+alpine:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
     extendable_carriers:
@@ -9,15 +49,15 @@ medium_alpine:
   pypsa_eur:
     Generator: [alpine-solar, solar, solar-hsat, onwind, ror]
 
-medium_alpine_offwind:
+alpine_offwind:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
     extendable_carriers:
-      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc] # 
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc]
   pypsa_eur:
     Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
 
-medium_alpine_industry:
+alpine_industry:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro]
     extendable_carriers:
@@ -27,7 +67,7 @@ medium_alpine_industry:
   sector:
     industry: true
 
-medium_alpine_industry_offwind:
+alpine_industry_offwind:
   electricity:
     renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
     extendable_carriers:
@@ -36,3 +76,29 @@ medium_alpine_industry_offwind:
     Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
   sector:
     industry: true
+
+alpine_offwind_CHCCL:
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+
+alpine_all_nosummerimports:
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+
+alpine_all_nosimp_no_tes:
+  electricity:
+    renewable_carriers: [alpine-solar, solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [alpine-solar, solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [alpine-solar, solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+  sector:
+    tes: false

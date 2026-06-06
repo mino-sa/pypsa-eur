@@ -1,7 +1,7 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 run:
-  prefix: "1718_imp5_g5_onwind_offwind_3h"
-  name: [medium_alpine] # cold_high_albedo, low_albedo_year, low_albedo_year_alpine
+  prefix: "0607_A+_imp5_simp0_g5" # 1718_C+_imp5_g5, 0607_A+_imp5_g5, 8586_B+_imp5_g5
+  name: [alpine_all_nosimp_no_tes] # alpine, alpine_offwind, alpine_industry, alpine_industry_offwind
   scenarios:
     enable: true
     file: config/scenarios.template.yaml
@@ -27,6 +27,24 @@ atlite:
   default_cutout: "neighbours_2017_2018"
   nprocesses: 1
   show_progress: true
+
+renewable:
+  alpine-solar:
+    cutout: default
+    corine: false
+    luisa: false
+    natura: true
+    resource:
+      method: pv
+      panel: CSi
+      orientation:
+        slope: 65.0
+        azimuth: 180.0
+    resource_classes: 1
+    capacity_per_sqkm: 5.1
+    correction_factor: 1.0
+    excluder_resolution: 100
+    clip_p_max_pu: 0.01
   
 pypsa_eur:
   Bus: [AC]
