@@ -205,11 +205,23 @@ if __name__ == "__main__":
         shapes=country_shapes,
         smooth=True,
         lower_threshold_quantile=True,
-        normalize_using_yearly=eia_stats,
+        normalize_using_yearly=eia_stats if full_years_available else None,
     )
 
     if full_years_available:
         inflow = inflow.sel(time=time)
+    else:
+        # Manually scale to EIA annual statistics when full calendar years are not available.
+        # The expected annual production is approximated as the mean across available EIA years.
+        times = pd.DatetimeIndex(inflow.time.values)
+        dt = (times[1] - times[0]) / pd.Timedelta("1h")
+        for country in inflow.coords["countries"].values:
+            if country not in eia_stats.columns:
+                continue
+            expected_mwh = eia_stats[country].mean()
+            actual_mwh = float(inflow.sel(countries=country).sum()) * dt
+            if actual_mwh > 0:
+                inflow.loc[dict(countries=country)] *= expected_mwh / actual_mwh
 
     if "clip_min_inflow" in params_hydro:
         inflow = inflow.where(inflow > params_hydro["clip_min_inflow"], 0)
