@@ -13,5 +13,5 @@ all,water tank charger,marginal_cost,0.03,EUR/MWh,Default value to prevent mathe
 all,central water pit charger,marginal_cost,0.025,EUR/MWh,Default value to prevent mathematical degeneracy in optimisation,
 all,alpine-solar,investment,1280,EUR/kW_e,Harnessing solar power in the Alps: A study on the financial viability of mountain PV systems, 60% subsidy (Einmalvergütung)
 all,alpine-solar,FOM,0.96,%/year, Harnessing solar power in the Alps: A study on the financial viability of mountain PV systems, 7.05Eur/kWp (operation costs) + 5.23 Eur/kWp (land lease with assumption of 1000kWp for 1 hectare becaue of error in paper) = (12.28 Eur/kWp) / (1280 Eur/kW) = 0.0096 = 0.96%/year
-all,alpine-solar,lifetime,40,years
+all,alpine-solar,lifetime,35,years
 all,alpine,marginal_cost,0.01,EUR/MWh
