@@ -1,3 +1,4 @@
+### baseline scenarios ###
 
 baseline: {}
 
@@ -38,6 +39,16 @@ baseline_all_nosummerimports:
       Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
   pypsa_eur:
     Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+
+baseline_all_nosimp_no_tes:
+  electricity:
+    renewable_carriers: [solar, solar-hsat, onwind, hydro, offwind-ac, offwind-dc]
+    extendable_carriers:
+      Generator: [solar, solar-hsat, onwind, offwind-ac, offwind-dc]
+  pypsa_eur:
+    Generator: [solar, solar-hsat, onwind, ror, offwind-ac, offwind-dc]
+  sector:
+    tes: false
     
 ### alpine scenarios ###
 
