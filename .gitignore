@@ -74,8 +74,6 @@ d1gam3xoknrgr2.cloudfront.net/
 *.geojson
 
 *.ipynb
-!compare_scenarios.ipynb
-!C+_visualise.ipynb
 
 merger-todos.md
 
