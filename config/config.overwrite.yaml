@@ -1,7 +1,7 @@
 # docs in https://pypsa-eur.readthedocs.io/en/latest/configuration.html
 run:
-  prefix: "0607_A+_imp5_simp0_g5" # 1718_C+_imp5_g5, 0607_A+_imp5_g5, 8586_B+_imp5_g5
-  name: [alpine_all_nosimp_no_tes] # alpine, alpine_offwind, alpine_industry, alpine_industry_offwind
+  prefix: "1718_C+_imp5_simp0_g5" # 1718_C+_imp5_g5, 0607_A+_imp5_g5, 8586_B+_imp5_g5
+  name: [alpine_final] # alpine, alpine_offwind, alpine_industry, alpine_industry_offwind
   scenarios:
     enable: true
     file: config/scenarios.template.yaml
@@ -68,7 +68,7 @@ sector:
   industry: false # set to true later
 
   heating: true
-  tes: true #false
+  tes: false
   boilers: false #otherwise undefined buses -> heating is electric
   resistive_heaters: true 
   district_heating:
